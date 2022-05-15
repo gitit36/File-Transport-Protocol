@@ -1,0 +1,24 @@
+The code has been tested in a way that the server shows robustness for client error or any other malicious attempts. 
+
+For user authentication, the following test cases were used to see if the server recognizes the correct input values (this include not including any extra arguments after USER or PASS):
+
+* USER tiger
+* PASS dubai
+* USER
+
+For commands as shown above, the server will return the responses like "332 Need account for login." and "530 Not logged in."
+
+Another potential client error or malicious attempt could be an input of an arbitrary command not known to the server as follows (this includes any command starting with '!'):
+
+* CREATE
+* MERGE
+* !LS
+
+For commands as shown above, the server will return the responses like "202 Command not implemented." and simply print the "ftp > " so that the client can input the correct command. 
+
+Another case is where the user uploads or downloads a file that does not exist as the following:
+
+* STOR gibberish.txt
+* RETR nothere.txt
+
+In this case, we return "550 No such file or directory." to indicate the client that the files are not valid or non-existent.
